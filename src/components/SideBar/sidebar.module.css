@@ -1,33 +1,29 @@
 .nav {
     width: 20%;
     height: 100%;
-    background-color: #FFFFFF20;
+    background-color: #ffffff20;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 
 .link {
     width: 80%;
     padding: 2rem;
-    margin: 10px;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    border-radius: 50px;
-    background-color: #FFFFFF10;
-    box-shadow: -10px 10px 20px #00000060, 10px -10px 20px #ffffff60;
+    border-radius: 25px;
+    background-color: #ffffff50;
+    box-shadow: -10px 10px 20px #00000050, 10px -10px 20px #ffffff50;
     color: #217180;
-    font-size: 1.5rem;
+    font-size: 1.5em;
 }
 
-.link:hover {
-    background-color: #FFFFFF40;
-}
-
+.link:hover,
 .selected {
     background-color: #00000010;
-    box-shadow: inset -10px 10px 20px #00000060, inset 10px -10px 20px #ffffff60;
+    box-shadow: inset -10px 10px 20px #00000050, inset 10px -10px 20px #ffffff50;
 }

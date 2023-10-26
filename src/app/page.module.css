@@ -1,0 +1,32 @@
+.buttonContainer {
+    width: 80%;
+    max-width: 1080px;
+    height: 42px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.controlButton {
+    height: 64px;
+    padding: 10px;
+    width: calc(100% / 2 - 10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #ffffff50;
+    box-shadow: -5px 5px 10px #00000050, 5px -5px 10px #ffffff50;
+    color: #217180;
+    border: none;
+    z-index: 2;
+    font-size: 1.5em;
+}
+
+.controlButton:hover {
+    background-color: #00000010;
+    cursor: pointer;
+    box-shadow: inset -5px 5px 10px #00000050, inset 5px -5px 10px #ffffff50;
+}

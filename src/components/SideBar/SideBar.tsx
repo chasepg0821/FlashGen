@@ -35,7 +35,9 @@ const renderNavOptions = (pathname: string) => {
                         href={option.route}
                         key={option.label}
                         style={{
-                            height: `calc(100vh / ${navOptions.length} - 20px)`
+                            height: `calc(100vh / ${navOptions.length} - ${
+                                10 * navOptions.length
+                            }px)`
                         }}>
                         {option.label}
                     </Link>

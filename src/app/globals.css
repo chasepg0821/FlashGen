@@ -46,3 +46,13 @@ a {
         color-scheme: dark;
     }
 }
+
+main {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff20;
+}
