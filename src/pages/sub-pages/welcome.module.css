@@ -1,0 +1,10 @@
+.welcome_message {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+@media screen and (max-width: 1000px) {
+    .welcome_message {
+        font-size: 1rem;
+    }
+}

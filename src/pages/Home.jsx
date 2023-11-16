@@ -5,44 +5,10 @@ import { StepBackwardFilled, StepForwardFilled } from "@ant-design/icons";
 
 import style from "./home.module.css";
 
-const steps = [
-    {
-        title: "Welcome",
-        content: <Welcome />,
-        description: "Brief intro and confirmation of eligibility."
-    },
-    {
-        title: "Build Your Deck",
-        content: "Second-content",
-        description: "Build a set of 10 cards."
-    },
-    {
-        title: "Correctly Paraphrase",
-        content: "Last-content",
-        description: "Give correct paraphrases."
-    },
-    {
-        title: "Incorrectly Paraphrase",
-        content: "Last-content",
-        description: "Give incorrect paraphrases."
-    },
-    {
-        title: "Thank You!",
-        content: "Last-content",
-        description: "The end of the study!"
-    }
-];
-
-const items = steps.map((item) => ({
-    key: item.title,
-    title: item.title,
-    description: item.description
-}));
-
 const Home = () => {
-    const [stepNo, setStepNo] = useState(1);
+    const [stepNo, setStepNo] = useState(0);
     const [stepStatus, setStepStatus] = useState("process");
-    const [canAdvance, setCanAdvance] = useState(true);
+    const [canAdvance, setCanAdvance] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {
@@ -61,16 +27,61 @@ const Home = () => {
     const next = () => {
         setStepNo(stepNo + 1);
         setCanAdvance(false);
+        setStepStatus("process");
     };
 
     const prev = () => {
         setStepNo(stepNo - 1);
         setCanAdvance(false);
+        setStepStatus("process");
     };
 
     const handleStepStatus = (status) => {
         setStepStatus(status);
     };
+
+    const handleChangeStep = (n) => {
+        setStepNo(n);
+    };
+
+    const steps = [
+        {
+            title: "Welcome",
+            content: (
+                <Welcome
+                    changeStep={handleChangeStep}
+                    changeStepStatus={handleStepStatus}
+                />
+            ),
+            description: "Brief intro and confirmation of eligibility."
+        },
+        {
+            title: "Build Your Deck",
+            content: "Second-content",
+            description: "Build a set of 10 cards."
+        },
+        {
+            title: "Correctly Paraphrase",
+            content: "Last-content",
+            description: "Give correct paraphrases."
+        },
+        {
+            title: "Incorrectly Paraphrase",
+            content: "Last-content",
+            description: "Give incorrect paraphrases."
+        },
+        {
+            title: "Thank You!",
+            content: "Last-content",
+            description: "The end of the study!"
+        }
+    ];
+
+    const items = steps.map((item) => ({
+        key: item.title,
+        title: item.title,
+        description: item.description
+    }));
 
     const renderNavButtons = () => {
         return (
@@ -87,7 +98,7 @@ const Home = () => {
                         }}
                     />
                 )}
-                {stepNo > 0 && (
+                {stepNo > 1 && stepNo !== 4 && (
                     <FloatButton
                         icon={<StepBackwardFilled />}
                         shape="square"
