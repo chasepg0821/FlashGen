@@ -1,5 +1,5 @@
 import { FloatButton, Steps } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Welcome from "./sub-pages/Welcome";
 import { StepBackwardFilled, StepForwardFilled } from "@ant-design/icons";
 
@@ -43,6 +43,16 @@ const Home = () => {
     const [stepNo, setStepNo] = useState(1);
     const [stepStatus, setStepStatus] = useState("process");
     const [canAdvance, setCanAdvance] = useState(true);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        function handleResize() {
+            setWindowWidth(window.innerWidth);
+        }
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     const handleChangeAdvancable = () => {
         setCanAdvance(!canAdvance);
@@ -99,6 +109,8 @@ const Home = () => {
                 current={stepNo}
                 items={items}
                 className={style.custom_steps}
+                size={windowWidth < 1200 ? "small" : "default"}
+                direction={windowWidth < 1000 ? "vertical" : "horizontal"}
             />
             <div className={style.content_window}>{steps[stepNo].content}</div>
             {renderNavButtons()}
