@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import style from "./welcome.module.css";
 import { Button, Checkbox } from "antd";
+import { useDispatch } from "react-redux";
+import { nextStep, setStatus, setStep } from "../../features/steps/stepsSlice";
 
-const Welcome = ({ changeStep, changeStepStatus }) => {
+const Welcome = () => {
     const [understand, setUnderstand] = useState(false);
     const [is18, setIs18] = useState(false);
 
+    const dispatch = useDispatch();
+
     const checkEligibility = () => {
         if (is18) {
-            changeStep(1);
+            dispatch(nextStep());
         } else {
-            changeStep(4);
-            changeStepStatus("error");
+            dispatch(setStep(4));
+            dispatch(setStatus("error"));
         }
     };
 
