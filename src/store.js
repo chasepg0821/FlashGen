@@ -19,7 +19,8 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
     reducer: persistReducer(persistConfig, rootReducer),
-    middleware: [thunk]
+    middleware: [thunk],
+    devTools: true
 });
 
 export const persistor = persistStore(store);

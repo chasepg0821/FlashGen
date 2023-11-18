@@ -6,6 +6,7 @@ import style from "./home.module.css";
 import { useSelector } from "react-redux";
 import { getStatus, getStepNo } from "../features/steps/stepsSlice";
 import Thanks from "./sub-pages/Thanks";
+import BAD from "./sub-pages/BAD";
 
 const Home = () => {
     const stepNo = useSelector(getStepNo);
@@ -29,7 +30,7 @@ const Home = () => {
         },
         {
             title: "Build Your Deck",
-            content: "Second-content",
+            content: <BAD />,
             description: "Build a set of 10 cards."
         },
         {
