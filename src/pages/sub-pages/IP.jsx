@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCards, updateCards } from "../../features/cards/cardsSlice";
 import { cloneDeep, includes } from "lodash";
 
-import style from "./bad.module.css";
+import style from "./cp.module.css";
 import { Button } from "antd";
 import { nextStep } from "../../features/steps/stepsSlice";
 
-const BAD = () => {
+const IP = () => {
     const cards = useSelector(selectCards);
     const [cardsState, setCardsState] = useState(cards);
     const [errors, setErrors] = useState([]);
@@ -36,7 +36,7 @@ const BAD = () => {
     const checkForEmptyFields = () => {
         const errors = [];
         cardsState.map((card, index) => {
-            if (card.prompt === "" || card.answer === "") {
+            if (card.incorrectParaphrase === "") {
                 errors.push(index);
             }
         });
@@ -65,23 +65,24 @@ const BAD = () => {
                             includes(errors, index) ? "red" : "#00000020"
                         }`
                     }}>
-                    <div className={style.input_group}>
+                    <div className={style.input_group + " " + style.info}>
+                        <h2>Card Info</h2>
                         <h3>Prompt:</h3>
-                        <textarea
-                            className={style.input}
-                            onBlur={() => dispatch(updateCards(cardsState))}
-                            onChange={updateCard("prompt", index)}
-                            value={card.prompt}
-                            maxLength={125}
-                        />
+                        <div className={style.display}>
+                            {cardsState[index].prompt}
+                        </div>
+                        <h3>Answer:</h3>
+                        <div className={style.display}>
+                            {cardsState[index].answer}
+                        </div>
                     </div>
                     <div className={style.input_group}>
-                        <h3>Answer:</h3>
+                        <h3>Incorrect Paraphrase:</h3>
                         <textarea
                             className={style.input}
                             onBlur={() => dispatch(updateCards(cardsState))}
-                            onChange={updateCard("answer", index)}
-                            value={card.answer}
+                            onChange={updateCard("incorrectParaphrase", index)}
+                            value={card.incorrectParaphrase}
                             maxLength={125}
                         />
                     </div>
@@ -93,17 +94,29 @@ const BAD = () => {
     const renderConfirm = () => {
         return cardsState.map((card, index) => {
             return (
-                <div className={style.input_section} key={index}>
-                    <div className={style.input_group}>
+                <div
+                    className={style.input_section}
+                    key={index}
+                    style={{
+                        border: `1px solid ${
+                            includes(errors, index) ? "red" : "#00000020"
+                        }`
+                    }}>
+                    <div className={style.input_group + " " + style.info}>
+                        <h2>Card Info</h2>
                         <h3>Prompt:</h3>
                         <div className={style.display}>
                             {cardsState[index].prompt}
                         </div>
-                    </div>
-                    <div className={style.input_group}>
                         <h3>Answer:</h3>
                         <div className={style.display}>
                             {cardsState[index].answer}
+                        </div>
+                    </div>
+                    <div className={style.input_group}>
+                        <h3>Correct Paraphrase:</h3>
+                        <div className={style.display}>
+                            {cardsState[index].correctParaphrase}
                         </div>
                     </div>
                 </div>
@@ -115,14 +128,14 @@ const BAD = () => {
         <div className={style.page}>
             <h1>
                 {pageStep === "create"
-                    ? "Create Your Deck"
+                    ? "Add Incorrect Paraphrases"
                     : "Confirm Your Entries"}
             </h1>
             {pageStep === "create" ? renderCreate() : renderConfirm()}
             {errors.length > 0 && (
                 <p style={{ color: "red" }}>
-                    All pairs must have a prompt and an answer. Pairs that are
-                    missing one are highlighted in red.
+                    All pairs must have an incorrect paraphrase added. Pairs
+                    that are missing one are highlighted in red.
                 </p>
             )}
             <div>
@@ -144,4 +157,4 @@ const BAD = () => {
     );
 };
 
-export default BAD;
+export default IP;

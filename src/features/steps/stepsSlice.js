@@ -10,15 +10,18 @@ export const stepsSlice = createSlice({
     reducers: {
         setStep: (state, action) => {
             state.stepNo = action.payload;
+            window.scrollTo(0, 0);
         },
         setStatus: (state, action) => {
             state.status = action.payload;
         },
         nextStep: (state) => {
             state.stepNo += 1;
+            window.scrollTo(0, 0);
         },
         prevStep: (state) => {
             state.stepNo -= 1;
+            window.scrollTo(0, 0);
         }
     }
 });

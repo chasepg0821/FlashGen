@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { getStatus, getStepNo } from "../features/steps/stepsSlice";
 import Thanks from "./sub-pages/Thanks";
 import BAD from "./sub-pages/BAD";
+import CP from "./sub-pages/CP";
+import IP from "./sub-pages/IP";
 
 const Home = () => {
     const stepNo = useSelector(getStepNo);
@@ -35,12 +37,12 @@ const Home = () => {
         },
         {
             title: "Correctly Paraphrase",
-            content: "Last-content",
+            content: <CP />,
             description: "Give correct paraphrases."
         },
         {
             title: "Incorrectly Paraphrase",
-            content: "Last-content",
+            content: <IP />,
             description: "Give incorrect paraphrases."
         },
         {
