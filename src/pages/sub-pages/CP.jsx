@@ -4,14 +4,14 @@ import { selectCards, updateCards } from "../../features/cards/cardsSlice";
 import { cloneDeep, includes } from "lodash";
 
 import style from "./cp.module.css";
-import { Button } from "antd";
+import { Button, Card } from "antd";
 import { nextStep } from "../../features/steps/stepsSlice";
+import ReactCardFlip from "react-card-flip";
 
 const CP = () => {
     const cards = useSelector(selectCards);
     const [cardsState, setCardsState] = useState(cards);
     const [errors, setErrors] = useState([]);
-    const [pageStep, setPageStep] = useState("create");
 
     const dispatch = useDispatch();
 
@@ -19,9 +19,20 @@ const CP = () => {
         setCardsState(cards);
     }, [cards]);
 
-    const changeStep = (step) => {
-        setPageStep(step);
-        window.scrollTo(0, 0);
+    //Flash Card Controls
+    const [currentCard, setCurrentCard] = useState(0);
+    const [cardFlipped, setCardFlipped] = useState(false);
+
+    const nextCard = () => {
+        setCurrentCard((currentCard + 1) % cardsState.length);
+        setCardFlipped(false);
+    };
+
+    const prevCard = () => {
+        setCurrentCard(
+            currentCard === 0 ? cardsState.length - 1 : currentCard - 1
+        );
+        setCardFlipped(false);
     };
 
     const updateCard = (key, index) => (e) => {
@@ -33,9 +44,18 @@ const CP = () => {
         setCardsState(state);
     };
 
+    //Page step controls (create or confirm)
+    const [pageStep, setPageStep] = useState("create");
+
+    const changeStep = (step) => {
+        setPageStep(step);
+        window.scrollTo(0, 0);
+    };
+
+    //Handle card submission to dataset
     const checkForEmptyFields = () => {
         const errors = [];
-        cardsState.map((card, index) => {
+        cardsState.forEach((card, index) => {
             if (card.correctParaphrase === "") {
                 errors.push(index);
             }
@@ -52,6 +72,26 @@ const CP = () => {
         } else if (pageStep === "confirm") {
             dispatch(nextStep());
         }
+    };
+
+    const renderCreateCard = () => {
+        return (
+            <ReactCardFlip
+                isFlipped={cardFlipped}
+                infinite={true}
+                flipDirection="vertical">
+                <Card
+                    title={`Card ${currentCard} Prompt`}
+                    onClick={() => setCardFlipped(!cardFlipped)}>
+                    <p>{cardsState[currentCard].prompt}</p>
+                </Card>
+                <Card
+                    title={`Card ${currentCard} Answer`}
+                    onClick={() => setCardFlipped(!cardFlipped)}>
+                    <p>{cardsState[currentCard].answer}</p>
+                </Card>
+            </ReactCardFlip>
+        );
     };
 
     const renderCreate = () => {
@@ -131,7 +171,7 @@ const CP = () => {
                     ? "Add Correct Paraphrases"
                     : "Confirm Your Entries"}
             </h1>
-            {pageStep === "create" ? renderCreate() : renderConfirm()}
+            {pageStep === "create" ? renderCreateCard() : renderConfirm()}
             {errors.length > 0 && (
                 <p style={{ color: "red" }}>
                     All pairs must have a correct paraphrase added. Pairs that
