@@ -2,7 +2,7 @@ import os
 from flask import Flask, send_from_directory, request, jsonify
 from api import api
 
-app = Flask(__name__, static_folder='../build')
+app = Flask(__name__, static_folder='./client/build')
 app.register_blueprint(api, url_prefix="/api")
 
 # Serve React App
