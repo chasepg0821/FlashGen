@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCards, updateCards } from "../../features/cards/cardsSlice";
 import { cloneDeep, includes } from "lodash";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
+import "./cards.css";
 import style from "./cp.module.css";
 import { Button, Card } from "antd";
 import { nextStep } from "../../features/steps/stepsSlice";
@@ -76,59 +78,59 @@ const CP = () => {
 
     const renderCreateCard = () => {
         return (
-            <ReactCardFlip
-                isFlipped={cardFlipped}
-                infinite={true}
-                flipDirection="vertical">
-                <Card
-                    title={`Card ${currentCard} Prompt`}
-                    onClick={() => setCardFlipped(!cardFlipped)}>
-                    <p>{cardsState[currentCard].prompt}</p>
-                </Card>
-                <Card
-                    title={`Card ${currentCard} Answer`}
-                    onClick={() => setCardFlipped(!cardFlipped)}>
-                    <p>{cardsState[currentCard].answer}</p>
-                </Card>
-            </ReactCardFlip>
-        );
-    };
-
-    const renderCreate = () => {
-        return cardsState.map((card, index) => {
-            return (
-                <div
-                    className={style.input_section}
-                    key={index}
-                    style={{
-                        border: `1px solid ${
-                            includes(errors, index) ? "red" : "#00000020"
-                        }`
-                    }}>
-                    <div className={style.input_group + " " + style.info}>
-                        <h2>Card Info</h2>
-                        <h3>Prompt:</h3>
-                        <div className={style.display}>
-                            {cardsState[index].prompt}
-                        </div>
-                        <h3>Answer:</h3>
-                        <div className={style.display}>
-                            {cardsState[index].answer}
-                        </div>
-                    </div>
-                    <div className={style.input_group}>
-                        <h3>Correct Paraphrase:</h3>
-                        <textarea
-                            className={style.input}
-                            onBlur={() => dispatch(updateCards(cardsState))}
-                            onChange={updateCard("correctParaphrase", index)}
-                            value={card.correctParaphrase}
-                            maxLength={125}
-                        />
-                    </div>
+            <>
+                <div className={style.card_control}>
+                    <Button onClick={prevCard}>
+                        <LeftOutlined />
+                    </Button>
+                    <ReactCardFlip
+                        isFlipped={cardFlipped}
+                        infinite={true}
+                        flipDirection="vertical">
+                        <Card
+                            title={`Card ${currentCard + 1} Prompt`}
+                            onClick={() => setCardFlipped(!cardFlipped)}
+                            extra={"Click to see the answer"}
+                            style={{
+                                border: errors.includes(currentCard)
+                                    ? "1px solid red"
+                                    : ""
+                            }}>
+                            <p className={style.card_text}>
+                                {cardsState[currentCard].prompt}
+                            </p>
+                        </Card>
+                        <Card
+                            title={`Card ${currentCard + 1} Answer`}
+                            onClick={() => setCardFlipped(!cardFlipped)}
+                            extra={"Click to see the prompt"}
+                            style={{
+                                border: errors.includes(currentCard)
+                                    ? "1px solid red"
+                                    : ""
+                            }}>
+                            <p className={style.card_text}>
+                                {cardsState[currentCard].answer}
+                            </p>
+                        </Card>
+                    </ReactCardFlip>
+                    <Button onClick={nextCard}>
+                        <RightOutlined />
+                    </Button>
                 </div>
-            );
-        });
+
+                <div className={style.input_group}>
+                    <h3>Correct Paraphrase:</h3>
+                    <textarea
+                        className={style.input}
+                        onBlur={() => dispatch(updateCards(cardsState))}
+                        onChange={updateCard("correctParaphrase", currentCard)}
+                        value={cardsState[currentCard].correctParaphrase}
+                        maxLength={125}
+                    />
+                </div>
+            </>
+        );
     };
 
     const renderConfirm = () => {
@@ -143,7 +145,7 @@ const CP = () => {
                         }`
                     }}>
                     <div className={style.input_group + " " + style.info}>
-                        <h2>Card Info</h2>
+                        <h2>Card {index + 1} Info</h2>
                         <h3>Prompt:</h3>
                         <div className={style.display}>
                             {cardsState[index].prompt}
@@ -173,9 +175,14 @@ const CP = () => {
             </h1>
             {pageStep === "create" ? renderCreateCard() : renderConfirm()}
             {errors.length > 0 && (
-                <p style={{ color: "red" }}>
+                <p style={{ color: "red", textAlign: "center" }}>
                     All pairs must have a correct paraphrase added. Pairs that
-                    are missing one are highlighted in red.
+                    are missing one are highlighted in red. <br /> Errors on
+                    cards: [
+                    {errors.map((number) => {
+                        return <>{number + 1}</>;
+                    })}
+                    ]
                 </p>
             )}
             <div>

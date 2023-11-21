@@ -58,11 +58,27 @@
     margin: 10px;
 }
 
+.card_text {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.card_control {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 80%;
+    justify-content: space-around;
+    align-items: center;
+}
+
 @media screen and (max-width: 1000px) {
     .input_section {
         flex-flow: column nowrap;
     }
     .input_group {
+        width: 100%;
+    }
+    .card_control {
         width: 100%;
     }
 }
