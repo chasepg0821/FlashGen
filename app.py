@@ -28,7 +28,7 @@ def handle_404(e):
 @app.errorhandler(405)
 def handle_405(e):
     if request.path.startswith("/api/"):
-        return jsonify(message="Mehtod not allowed"), 405
+        return jsonify(message="Method not allowed"), 405
     return e
 
 if __name__ == '__main__':
