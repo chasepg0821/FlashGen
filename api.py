@@ -1,26 +1,26 @@
 import os
 from flask import Blueprint, request, jsonify
-# import requests
+import requests
 import mysql.connector
-# import uuid
+import uuid
 
 api = Blueprint('api', __name__)
 
 cnx = mysql.connector.connect(user=os.environ["AZURE_MYSQL_USER"], password=os.environ["AZURE_MYSQL_PASSWORD"], host=os.environ["AZURE_MYSQL_HOST"], port=3306, database=os.environ["AZURE_MYSQL_NAME"], ssl_ca="DigiCertGlobalRootCA.crt.pem", ssl_disabled=False)
 
-@api.route('/make-comparison', methods=['GET'])
-def compare ():
-    cursor = cnx.cursor()
+# @api.route('/make-comparison', methods=['GET'])
+# def compare ():
+#     cursor = cnx.cursor()
 
-    cursor.execute('SELECT * FROM pairs')
+#     cursor.execute('SELECT * FROM pairs')
 
-    rows = cursor.fetchall()
+#     rows = cursor.fetchall()
 
-    cursor.close()
+#     cursor.close()
 
-    return {
-        "response" : rows
-    }
+#     return {
+#         "response" : rows
+#     }
 """
 Request:
 {
@@ -37,7 +37,7 @@ Response:
         ...evaluationsOfPairs
     ]
 }
-
+"""
 @api.route('/make-comparison', methods=['POST'])
 def compare ():
     cards = request.values['cards']
@@ -61,7 +61,7 @@ def compare ():
     })
 
     return response.json(), response.status_code
-"""
+
 """
 Request:
 {
@@ -75,7 +75,7 @@ Request:
         ...incorrectParaphraseEvals
     ]
 }
-
+"""
 @api.route('/send-pairs', methods=['POST'])
 def sendPairs ():
     cards = request.values["cards"]
@@ -98,5 +98,3 @@ def sendPairs ():
     return {
         "message" : "success"
     }, 200
-
-"""
