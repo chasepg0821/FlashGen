@@ -41,7 +41,7 @@ Response:
 @api.route('/make-comparison', methods=['POST'])
 def compare ():
     cards = request.json['cards']
-    key = request.json['key']
+    key = request.args.get('key')
 
     inputs = []
     for card in cards:
@@ -52,7 +52,7 @@ def compare ():
 
     API_URL = "https://ts6ke7jk9qtdxz1g.us-east-1.aws.endpoints.huggingface.cloud"
     headers = {
-        "Authorization": f"Bearer {os.environ['HF_TOKEN']}",
+        "Authorization": f'Bearer {os.environ["HF_TOKEN"]}',
         "Content-Type": "application/json"
     }
 
