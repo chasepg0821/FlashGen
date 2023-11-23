@@ -14,8 +14,12 @@ def compare ():
 
     cursor.execute('SELECT * FROM pairs')
 
+    rows = cursor.fetchall()
+
+    cursor.close()
+
     return {
-        "response" : cursor.fetchall()
+        "response" : rows
     }
 """
 Request:
