@@ -3,28 +3,20 @@ import { createSlice } from "@reduxjs/toolkit";
 export const statsSlice = createSlice({
     name: "stats",
     initialState: {
-        truePositives: 0,
-        trueNegatives: 0,
-        falsePositives: 0,
-        falseNegatives: 0
+        CPEvals: [],
+        IPEvals: []
     },
     reducers: {
-        addTP: (state) => {
-            state.truePositives += 1;
+        updateCP: (state, action) => {
+            state.CPEvals = action.payload;
         },
-        addTN: (state) => {
-            state.trueNegatives += 1;
-        },
-        addFP: (state) => {
-            state.falsePositives += 1;
-        },
-        addFN: (state) => {
-            state.falseNegatives += 1;
+        updateIP: (state, action) => {
+            state.IPEvals = action.payload;
         }
     }
 });
 
 // Action creators are generated for each case reducer function
-export const { addTP, addTN, addFP, addFN } = statsSlice.actions;
+export const { updateCP, updateIP } = statsSlice.actions;
 
 export default statsSlice.reducer;
