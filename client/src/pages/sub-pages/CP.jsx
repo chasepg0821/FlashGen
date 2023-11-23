@@ -5,7 +5,7 @@ import { cloneDeep, includes } from "lodash";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 import "./cards.css";
-import style from "./cp.module.css";
+import style from "./paraphrase.module.css";
 import { Button, Card } from "antd";
 import { nextStep } from "../../features/steps/stepsSlice";
 import ReactCardFlip from "react-card-flip";
@@ -96,9 +96,9 @@ const CP = () => {
                                     ? "1px solid red"
                                     : ""
                             }}>
-                            <p className={style.card_text}>
+                            <div className={style.card_text}>
                                 {cardsState[currentCard].prompt}
-                            </p>
+                            </div>
                         </Card>
                         <Card
                             title={`Card ${currentCard + 1} Answer`}
@@ -109,9 +109,9 @@ const CP = () => {
                                     ? "1px solid red"
                                     : ""
                             }}>
-                            <p className={style.card_text}>
+                            <div className={style.card_text}>
                                 {cardsState[currentCard].answer}
-                            </p>
+                            </div>
                         </Card>
                     </ReactCardFlip>
                     <Button onClick={nextCard}>
@@ -166,6 +166,23 @@ const CP = () => {
         });
     };
 
+    const fetchInference = async () => {
+        const resp = await fetch(
+            "flash-gen.azurewebsites.net/api/make-comparison",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    hi: "hello"
+                }) // body data type must match "Content-Type" header
+            }
+        );
+    };
+
+    const renderResults = () => {};
+
     return (
         <div className={style.page}>
             <h1>
@@ -179,8 +196,14 @@ const CP = () => {
                     All pairs must have a correct paraphrase added. Pairs that
                     are missing one are highlighted in red. <br /> Errors on
                     cards: [
-                    {errors.map((number) => {
-                        return <>{number + 1}</>;
+                    {errors.map((number, index) => {
+                        return (
+                            <>
+                                {index === errors.length - 1
+                                    ? number + 1
+                                    : number + 1 + ", "}
+                            </>
+                        );
                     })}
                     ]
                 </p>

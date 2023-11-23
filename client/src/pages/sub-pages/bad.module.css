@@ -45,7 +45,7 @@
     padding: 10px;
     overflow-wrap: break-word;
     font-size: 1.25rem;
-    overflow: scroll;
+    overflow-y: auto;
 }
 
 .control_button {

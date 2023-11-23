@@ -5,7 +5,7 @@ import { cloneDeep, includes } from "lodash";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 import "./cards.css";
-import style from "./cp.module.css";
+import style from "./paraphrase.module.css";
 import { Button, Card } from "antd";
 import { nextStep } from "../../features/steps/stepsSlice";
 import ReactCardFlip from "react-card-flip";

@@ -1,3 +1,7 @@
 .react-card-flip {
     width: 80%;
 }
+
+.ant-card {
+    box-shadow: 5px 5px 10px #00000040;
+}

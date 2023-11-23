@@ -33,47 +33,10 @@ export const cardsSlice = createSlice({
                 answer: "",
                 correctParaphrase: "",
                 incorrectParaphrase: ""
-            },
-            {
-                prompt: "",
-                answer: "",
-                correctParaphrase: "",
-                incorrectParaphrase: ""
-            },
-            {
-                prompt: "",
-                answer: "",
-                correctParaphrase: "",
-                incorrectParaphrase: ""
-            },
-            {
-                prompt: "",
-                answer: "",
-                correctParaphrase: "",
-                incorrectParaphrase: ""
-            },
-            {
-                prompt: "",
-                answer: "",
-                correctParaphrase: "",
-                incorrectParaphrase: ""
-            },
-            {
-                prompt: "",
-                answer: "",
-                correctParaphrase: "",
-                incorrectParaphrase: ""
             }
         ]
     },
     reducers: {
-        // Action Format:
-        //{
-        //     index: X,
-        //     card: {
-        //         ...CARD INFORMATION
-        //     }
-        // }
         updateCards: (state, action) => {
             state.cardInfo = action.payload;
         }
