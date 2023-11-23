@@ -168,15 +168,15 @@ const CP = () => {
 
     const fetchInference = async () => {
         const resp = await fetch(
-            "flash-gen.azurewebsites.net/api/make-comparison",
+            "https://flash-gen.azurewebsites.net/api/make-comparison",
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({
-                    hi: "hello"
-                }) // body data type must match "Content-Type" header
+                body: {
+                    cards: cards
+                }
             }
         );
     };

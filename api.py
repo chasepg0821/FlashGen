@@ -6,7 +6,7 @@ import uuid
 
 api = Blueprint('api', __name__)
 
-cnx = mysql.connector.connect(user=os.environ["AZURE_MYSQL_USER"], password=os.environ["AZURE_MYSQL_PASSWORD"], host=os.environ["AZURE_MYSQL_HOST"], port=3306, database=os.environ["AZURE_MYSQL_NAME"], ssl_ca="DigiCertGlobalRootCA.crt.pem", ssl_disabled=False)
+#cnx = mysql.connector.connect(user=os.environ["AZURE_MYSQL_USER"], password=os.environ["AZURE_MYSQL_PASSWORD"], host=os.environ["AZURE_MYSQL_HOST"], port=3306, database=os.environ["AZURE_MYSQL_NAME"], ssl_ca="DigiCertGlobalRootCA.crt.pem", ssl_disabled=False)
 
 """
 Request:
@@ -62,7 +62,7 @@ Request:
         ...incorrectParaphraseEvals
     ]
 }
-"""
+
 @api.route('/send-pairs', methods=['POST'])
 def sendPairs ():
     cards = request.values["cards"]
@@ -85,3 +85,5 @@ def sendPairs ():
     return {
         "message" : "success"
     }, 200
+
+"""
