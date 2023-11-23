@@ -1,7 +1,7 @@
 import { FloatButton, Steps } from "antd";
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import Welcome from "./sub-pages/Welcome";
-
 import style from "./home.module.css";
 import { useSelector } from "react-redux";
 import { getStatus, getStepNo } from "../features/steps/stepsSlice";
@@ -60,6 +60,9 @@ const Home = () => {
 
     return (
         <div className={style.page_window}>
+            <Helmet>
+                <title>{`FlashGen Alpha | Step ${stepNo + 1}`}</title>
+            </Helmet>
             <Steps
                 status={status}
                 current={stepNo}

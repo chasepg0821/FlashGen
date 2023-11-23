@@ -166,23 +166,6 @@ const CP = () => {
         });
     };
 
-    const fetchInference = async () => {
-        const resp = await fetch(
-            "https://flash-gen.azurewebsites.net/api/make-comparison",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: {
-                    cards: cards
-                }
-            }
-        );
-    };
-
-    const renderResults = () => {};
-
     return (
         <div className={style.page}>
             <h1>

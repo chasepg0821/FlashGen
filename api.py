@@ -8,6 +8,11 @@ api = Blueprint('api', __name__)
 
 #cnx = mysql.connector.connect(user=os.environ["AZURE_MYSQL_USER"], password=os.environ["AZURE_MYSQL_PASSWORD"], host=os.environ["AZURE_MYSQL_HOST"], port=3306, database=os.environ["AZURE_MYSQL_NAME"], ssl_ca="DigiCertGlobalRootCA.crt.pem", ssl_disabled=False)
 
+@api.route('/make-comparison', methods=['POST'])
+def compare ():
+    return {
+        "response" : "hi"
+    }
 """
 Request:
 {
@@ -24,7 +29,7 @@ Response:
         ...evaluationsOfPairs
     ]
 }
-"""
+
 @api.route('/make-comparison', methods=['POST'])
 def compare ():
     cards = request.values['cards']
@@ -48,7 +53,7 @@ def compare ():
     })
 
     return response.json(), response.status_code
-
+"""
 """
 Request:
 {
