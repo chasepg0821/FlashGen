@@ -8,19 +8,6 @@ api = Blueprint('api', __name__)
 
 cnx = mysql.connector.connect(user=os.environ["AZURE_MYSQL_USER"], password=os.environ["AZURE_MYSQL_PASSWORD"], host=os.environ["AZURE_MYSQL_HOST"], port=3306, database=os.environ["AZURE_MYSQL_NAME"], ssl_ca="DigiCertGlobalRootCA.crt.pem", ssl_disabled=False)
 
-# @api.route('/make-comparison', methods=['GET'])
-# def compare ():
-#     cursor = cnx.cursor()
-
-#     cursor.execute('SELECT * FROM pairs')
-
-#     rows = cursor.fetchall()
-
-#     cursor.close()
-
-#     return {
-#         "response" : rows
-#     }
 """
 Request:
 {
@@ -37,6 +24,8 @@ Response:
         ...evaluationsOfPairs
     ]
 }
+Params:
+    key - ("correctParaphrase", "incorrectParaphrase")
 """
 @api.route('/make-comparison', methods=['POST'])
 def compare ():
@@ -78,11 +67,11 @@ Request:
 """
 @api.route('/send-pairs', methods=['POST'])
 def sendPairs ():
-    cards = request.values["cards"]
-    cpEvals = request.values["CPEvals"]
-    ipEvals = request.values["IPEvals"]
+    cards = request.json["cards"]
+    cpEvals = request.json["CPEvals"]
+    ipEvals = request.json["IPEvals"]
 
-    sID = uuid()
+    sID = uuid.uuid4()
 
     data = []
     for i, card in enumerate(cards):
