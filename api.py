@@ -71,12 +71,24 @@ def sendPairs ():
     cpEvals = request.json["CPEvals"]
     ipEvals = request.json["IPEvals"]
 
-    sID = uuid.uuid4()
+    sID = str(uuid.uuid4())
 
     data = []
+    ipStr = ""
+    cpStr = ""
     for i, card in enumerate(cards):
-        data.append((sID, card['answer'], card['correctParaphrase'], 'True', cpEvals[i]))
-        data.append((sID, card['answer'], card['incorrectParaphrase'], 'False', ipEvals[i]))
+        if cpEvals[i]:
+            cpStr = "True"
+        else:
+            cpStr = "False"
+
+        if ipEvals[i]:
+            ipStr = "True"
+        else:
+            ipStr = "False"
+
+        data.append((sID, card['answer'], card['correctParaphrase'], 'True', cpStr))
+        data.append((sID, card['answer'], card['incorrectParaphrase'], 'False', ipStr))
 
     query = "INSERT INTO pairs (session_id, text, text_pair, label, model_result) VALUES (%s, %s, %s, %s, %s)"
 
