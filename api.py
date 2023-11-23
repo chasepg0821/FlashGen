@@ -1,17 +1,21 @@
 import os
 from flask import Blueprint, request, jsonify
-import requests
+# import requests
 import mysql.connector
-import uuid
+# import uuid
 
 api = Blueprint('api', __name__)
 
-#cnx = mysql.connector.connect(user=os.environ["AZURE_MYSQL_USER"], password=os.environ["AZURE_MYSQL_PASSWORD"], host=os.environ["AZURE_MYSQL_HOST"], port=3306, database=os.environ["AZURE_MYSQL_NAME"], ssl_ca="DigiCertGlobalRootCA.crt.pem", ssl_disabled=False)
+cnx = mysql.connector.connect(user=os.environ["AZURE_MYSQL_USER"], password=os.environ["AZURE_MYSQL_PASSWORD"], host=os.environ["AZURE_MYSQL_HOST"], port=3306, database=os.environ["AZURE_MYSQL_NAME"], ssl_ca="DigiCertGlobalRootCA.crt.pem", ssl_disabled=False)
 
-@api.route('/make-comparison', methods=['POST'])
+@api.route('/make-comparison', methods=['GET'])
 def compare ():
+    cursor = cnx.cursor()
+
+    cursor.execute('SELECT * FROM pairs')
+
     return {
-        "response" : "hi"
+        "response" : cursor.rowcount
     }
 """
 Request:
