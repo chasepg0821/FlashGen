@@ -15,7 +15,7 @@ def compare ():
     cursor.execute('SELECT * FROM pairs')
 
     return {
-        "response" : cursor.rowcount
+        "response" : cursor.fetchall()
     }
 """
 Request:
