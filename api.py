@@ -41,7 +41,7 @@ Response:
 @api.route('/make-comparison', methods=['POST'])
 def compare ():
     cards = request.json['cards']
-    key = request.args.get('key')
+    key = request.json['key']
 
     inputs = []
     for card in cards:
