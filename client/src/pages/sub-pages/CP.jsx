@@ -211,13 +211,14 @@ const CP = () => {
                             <h3>Expected</h3>
                             True
                         </div>
-                        <div
-                            className={style.result}
-                            style={{
-                                color: evals[index] ? "green" : "red"
-                            }}>
+                        <div className={style.result}>
                             <h3>Result</h3>
-                            {evals[index] ? "True" : "False"}
+                            <div
+                                style={{
+                                    color: evals[index] ? "green" : "red"
+                                }}>
+                                {evals[index] ? "True" : "False"}
+                            </div>
                         </div>
                     </div>
                 </div>
