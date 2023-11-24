@@ -69,19 +69,18 @@ const CP = () => {
     };
 
     const fetchResults = async () => {
-        console.log(cardsState, {
+        const data = {
             cards: cardsState
-        });
+        };
         await fetch(
+            //"http://127.0.0.1:5000/api/make-comparison?key=correctParaphrase",
             "https://flash-gen.azurewebsites.net/api/make-comparison?key=correctParaphrase",
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: {
-                    cards: cardsState
-                }
+                body: JSON.stringify(data)
             }
         )
             .then((resp) => {
