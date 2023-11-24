@@ -69,7 +69,10 @@ const CP = () => {
     };
 
     const fetchResults = async () => {
-        fetch(
+        console.log(cardsState, {
+            cards: cardsState
+        });
+        await fetch(
             "https://flash-gen.azurewebsites.net/api/make-comparison?key=correctParaphrase",
             {
                 method: "POST",
@@ -88,6 +91,7 @@ const CP = () => {
                 return resp.json();
             })
             .then((data) => {
+                console.log(data, data.evaluations);
                 dispatch(updateCP(data.evaluations));
             })
             .catch((e) => {
