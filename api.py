@@ -84,7 +84,7 @@ def sendPairs ():
 
     cursor = cnx.cursor()
 
-    cursor.executemany(query, data)
+    cursor.execute(query, data[0])
 
     cursor.close()
 
