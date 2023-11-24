@@ -75,8 +75,8 @@ def sendPairs ():
 
     data = []
     for i, card in enumerate(cards):
-        data.append([sID, card['answer'], card['correctParaphrase'], 1, cpEvals[i]])
-        data.append([sID, card['answer'], card['incorrectParaphrase'], 0, ipEvals[i]])
+        data.append((sID, card['answer'], card['correctParaphrase'], 1, cpEvals[i]))
+        data.append((sID, card['answer'], card['incorrectParaphrase'], 0, ipEvals[i]))
 
     cursor = cnx.cursor()
 
