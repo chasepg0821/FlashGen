@@ -9,9 +9,11 @@ import style from "./paraphrase.module.css";
 import { Button, Card } from "antd";
 import { nextStep } from "../../features/steps/stepsSlice";
 import ReactCardFlip from "react-card-flip";
+import { getCPEvals, updateCP } from "../../features/stats/statsSlice";
 
 const CP = () => {
     const cards = useSelector(selectCards);
+    const evals = useSelector(getCPEvals);
     const [cardsState, setCardsState] = useState(cards);
     const [errors, setErrors] = useState([]);
 
@@ -66,12 +68,42 @@ const CP = () => {
         return errors.length;
     };
 
+    const fetchResults = async () => {
+        fetch(
+            "https://flash-gen.azurewebsites.net/api/make-comparison?key=correctParaphrase",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: {
+                    cards: cardsState
+                }
+            }
+        )
+            .then((resp) => {
+                if (!resp.ok) {
+                    throw Error(resp.status);
+                }
+                return resp.json();
+            })
+            .then((data) => {
+                dispatch(updateCP(data.evaluations));
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
     const submitCards = () => {
         const errorNo = checkForEmptyFields();
 
         if (errorNo === 0 && pageStep === "create") {
             changeStep("confirm");
         } else if (pageStep === "confirm") {
+            fetchResults();
+            changeStep("modelResults");
+        } else if (pageStep === "modelResults") {
             dispatch(nextStep());
         }
     };
@@ -147,18 +179,14 @@ const CP = () => {
                     <div className={style.input_group + " " + style.info}>
                         <h2>Card {index + 1} Info</h2>
                         <h3>Prompt:</h3>
-                        <div className={style.display}>
-                            {cardsState[index].prompt}
-                        </div>
+                        <div className={style.display}>{card.prompt}</div>
                         <h3>Answer:</h3>
-                        <div className={style.display}>
-                            {cardsState[index].answer}
-                        </div>
+                        <div className={style.display}>{card.answer}</div>
                     </div>
                     <div className={style.input_group}>
                         <h3>Correct Paraphrase:</h3>
                         <div className={style.display}>
-                            {cardsState[index].correctParaphrase}
+                            {card.correctParaphrase}
                         </div>
                     </div>
                 </div>
@@ -166,14 +194,46 @@ const CP = () => {
         });
     };
 
+    const renderModelResults = () => {
+        return cardsState.map((card, index) => {
+            return (
+                <div>
+                    <div>{card.prompt}</div>
+                    <div>{card.answer}</div>
+                    <div>{card.correctParaphrase}</div>
+                    <div>1</div>
+                    <div>{evals[index]}</div>
+                </div>
+            );
+        });
+    };
+
+    const renderTitle = () => {
+        switch (pageStep) {
+            case "create":
+                return "Add Correct Paraphrases";
+            case "confirm":
+                return "Confirm Your Entries";
+            default:
+                return "See Our Model's Results";
+        }
+    };
+
+    const renderPageContent = () => {
+        switch (pageStep) {
+            case "create":
+                return renderCreateCard();
+            case "confirm":
+                return renderConfirm();
+            default:
+                return renderModelResults();
+        }
+    };
+
     return (
         <div className={style.page}>
-            <h1>
-                {pageStep === "create"
-                    ? "Add Correct Paraphrases"
-                    : "Confirm Your Entries"}
-            </h1>
-            {pageStep === "create" ? renderCreateCard() : renderConfirm()}
+            <h1>{renderTitle()}</h1>
+            {renderPageContent()}
             {errors.length > 0 && (
                 <p style={{ color: "red", textAlign: "center" }}>
                     All pairs must have a correct paraphrase added. Pairs that
@@ -203,7 +263,7 @@ const CP = () => {
                     className={style.control_button}
                     type="primary"
                     onClick={submitCards}>
-                    {pageStep === "create" ? "Continue" : "Confirm"}
+                    {pageStep === "confirm" ? "Confirm" : "Continue"}
                 </Button>
             </div>
         </div>

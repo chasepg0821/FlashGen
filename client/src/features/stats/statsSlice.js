@@ -19,4 +19,12 @@ export const statsSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { updateCP, updateIP } = statsSlice.actions;
 
+export const getCPEvals = (state) => {
+    return state.stats.CPEvals;
+};
+
+export const getIPEvals = (state) => {
+    return state.stats.IPEvals;
+};
+
 export default statsSlice.reducer;

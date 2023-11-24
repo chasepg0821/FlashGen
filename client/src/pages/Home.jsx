@@ -5,6 +5,7 @@ import Welcome from "./sub-pages/Welcome";
 import style from "./home.module.css";
 import { useSelector } from "react-redux";
 import { getStatus, getStepNo } from "../features/steps/stepsSlice";
+import { useIdleTimer } from "react-idle-timer";
 import Thanks from "./sub-pages/Thanks";
 import BAD from "./sub-pages/BAD";
 import CP from "./sub-pages/CP";
@@ -14,8 +15,24 @@ const Home = () => {
     const stepNo = useSelector(getStepNo);
     const status = useSelector(getStatus);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [intervalID, setIntervalID] = useState();
+
+    const pingModel = () => {
+        fetch("https://flash-gen.azurewebsites.net/api/ping-model").catch(
+            (e) => {
+                console.log(e);
+            }
+        );
+    };
 
     useEffect(() => {
+        pingModel();
+        setIntervalID(
+            setInterval(() => {
+                pingModel();
+            }, 600000)
+        );
+
         function handleResize() {
             setWindowWidth(window.innerWidth);
         }
@@ -23,6 +40,25 @@ const Home = () => {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+    const onIdle = () => {
+        clearInterval(intervalID);
+    };
+
+    const onActive = () => {
+        pingModel();
+        setIntervalID(
+            setInterval(() => {
+                pingModel();
+            }, 600000)
+        );
+    };
+
+    useIdleTimer({
+        timeout: 900000,
+        onIdle,
+        onActive
+    });
 
     const steps = [
         {

@@ -53,6 +53,22 @@ def compare ():
     return response.json(), response.status_code
 
 """
+Request: GET
+"""
+@api.route('/ping-model', methods=['GET'])
+def ping ():
+    API_URL = "https://ts6ke7jk9qtdxz1g.us-east-1.aws.endpoints.huggingface.cloud"
+    headers = {
+        "Authorization": f'Bearer {os.environ["HF_TOKEN"]}',
+    }
+
+    requests.get(API_URL, headers=headers)
+
+    return {
+        "message" : "ping"
+    }, 200
+
+"""
 Request:
 {
     "cards" : [
@@ -95,3 +111,5 @@ def sendPairs ():
     return {
         "message" : f"Rows edited: {rows}"
     }, 200
+
+
