@@ -6,7 +6,8 @@ import uuid
 
 api = Blueprint('api', __name__)
 
-cnx = mysql.connector.connect(user=os.environ["AZURE_MYSQL_USER"], password=os.environ["AZURE_MYSQL_PASSWORD"], host=os.environ["AZURE_MYSQL_HOST"], port=3306, database=os.environ["AZURE_MYSQL_NAME"], ssl_ca="DigiCertGlobalRootCA.crt.pem", ssl_disabled=False)
+def connect():
+    return mysql.connector.connect(user=os.environ["AZURE_MYSQL_USER"], password=os.environ["AZURE_MYSQL_PASSWORD"], host=os.environ["AZURE_MYSQL_HOST"], port=3306, database=os.environ["AZURE_MYSQL_NAME"], ssl_ca="DigiCertGlobalRootCA.crt.pem", ssl_disabled=False)
 
 """
 Request:
@@ -75,20 +76,21 @@ def sendPairs ():
 
     data = []
     for i, card in enumerate(cards):
-        data.append((sID, card['answer'], card['correctParaphrase'], 1, cpEvals[i]))
-        data.append((sID, card['answer'], card['incorrectParaphrase'], 0, ipEvals[i]))
+        data.append([sID, card['answer'], card['correctParaphrase'], 1, cpEvals[i]])
+        data.append([sID, card['answer'], card['incorrectParaphrase'], 0, ipEvals[i]])
 
+    cnx = connect()
     cursor = cnx.cursor()
 
     query = "INSERT INTO pairs (session_id, text, text_pair, label, model_result) VALUES (%s, %s, %s, %s, %s)"
-
-    cursor = cnx.cursor()
 
     cursor.executemany(query, data)
     rows = cursor.rowcount
 
     cnx.commit()
     cursor.close()
+    cnx.close()
+    
 
     return {
         "message" : f"Rows edited: {rows}"
