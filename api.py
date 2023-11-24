@@ -74,27 +74,19 @@ def sendPairs ():
     sID = str(uuid.uuid4())
 
     data = []
-    ipStr = ""
-    cpStr = ""
     for i, card in enumerate(cards):
-        if cpEvals[i]:
-            cpStr = "True"
-        else:
-            cpStr = "False"
+        data.append((sID, card['answer'], card['correctParaphrase'], 1, cpEvals[i]))
+        data.append((sID, card['answer'], card['incorrectParaphrase'], 0, ipEvals[i]))
 
-        if ipEvals[i]:
-            ipStr = "True"
-        else:
-            ipStr = "False"
-
-        data.append((sID, card['answer'], card['correctParaphrase'], 'True', cpStr))
-        data.append((sID, card['answer'], card['incorrectParaphrase'], 'False', ipStr))
+    cursor = cnx.cursor()
 
     query = "INSERT INTO pairs (session_id, text, text_pair, label, model_result) VALUES (%s, %s, %s, %s, %s)"
 
     cursor = cnx.cursor()
 
     cursor.executemany(query, data)
+
+    cursor.close()
 
     return {
         "message" : "success"
