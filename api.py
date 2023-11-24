@@ -84,9 +84,10 @@ def sendPairs ():
 
     cursor = cnx.cursor()
 
-    cursor.execute(query, data[0])
+    cursor.executemany(query, data)
     rows = cursor.rowcount
 
+    cnx.commit()
     cursor.close()
 
     return {
