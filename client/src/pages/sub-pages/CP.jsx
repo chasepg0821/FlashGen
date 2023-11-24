@@ -73,7 +73,6 @@ const CP = () => {
             cards: cardsState
         };
         await fetch(
-            //"http://127.0.0.1:5000/api/make-comparison?key=correctParaphrase",
             "https://flash-gen.azurewebsites.net/api/make-comparison?key=correctParaphrase",
             {
                 method: "POST",
@@ -200,12 +199,27 @@ const CP = () => {
     const renderModelResults = () => {
         return cardsState.map((card, index) => {
             return (
-                <div>
-                    <div>{card.prompt}</div>
-                    <div>{card.answer}</div>
-                    <div>{card.correctParaphrase}</div>
-                    <div>1</div>
-                    <div>{evals[index]}</div>
+                <div className={style.result_card}>
+                    <h3>Prompt:</h3>
+                    <p>{card.prompt}</p>
+                    <h3>Answer:</h3>
+                    <p>{card.answer}</p>
+                    <h3>Paraphrase:</h3>
+                    <p>{card.correctParaphrase}</p>
+                    <div className={style.result_container}>
+                        <div className={style.result}>
+                            <h3>Expected</h3>
+                            True
+                        </div>
+                        <div
+                            className={style.result}
+                            style={{
+                                color: evals[index] ? "green" : "red"
+                            }}>
+                            <h3>Result</h3>
+                            {evals[index] ? "True" : "False"}
+                        </div>
+                    </div>
                 </div>
             );
         });

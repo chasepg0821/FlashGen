@@ -75,6 +75,36 @@
     align-items: center;
 }
 
+.result_card {
+    width: 80%;
+    padding: 10px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    margin-bottom: 10px;
+    border: 1px solid #00000020;
+    border-radius: 10px;
+}
+
+.result_container {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+.result {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
 @media screen and (max-width: 1000px) {
     .input_section {
         flex-flow: column nowrap;
@@ -83,6 +113,9 @@
         width: 100%;
     }
     .card_control {
+        width: 100%;
+    }
+    .result_card {
         width: 100%;
     }
 }
