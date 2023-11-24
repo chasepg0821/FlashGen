@@ -85,9 +85,10 @@ def sendPairs ():
     cursor = cnx.cursor()
 
     cursor.execute(query, data[0])
+    rows = cursor.rowcount
 
     cursor.close()
 
     return {
-        "message" : "success"
+        "message" : f"Rows edited: {rows}"
     }, 200
