@@ -54,7 +54,7 @@ const Thanks = () => {
                 </p>
                 <p className={style.welcome_message}>
                     If you consent to us storing your
-                    <b>responses and model predictions</b> please click the
+                    <b> responses and model predictions </b> please click the
                     button below:
                 </p>
                 <p
@@ -78,7 +78,11 @@ const Thanks = () => {
                 <p className={style.welcome_message}>
                     Your responses have been recorded!
                 </p>
-                <CheckCircleOutlined color="green" size="large" />
+                <CheckCircleOutlined
+                    width={250}
+                    height={250}
+                    style={{ color: "green" }}
+                />
             </>
         );
     };
