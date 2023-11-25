@@ -85,6 +85,7 @@
     text-align: left;
     margin-bottom: 10px;
     border: 1px solid #00000020;
+    box-shadow: 5px 5px 10px #00000040;
     border-radius: 10px;
 }
 

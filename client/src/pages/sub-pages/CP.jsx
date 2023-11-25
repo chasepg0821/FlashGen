@@ -89,7 +89,6 @@ const CP = () => {
                 return resp.json();
             })
             .then((data) => {
-                console.log(data, data.evaluations);
                 dispatch(updateCP(data.evaluations));
             })
             .catch((e) => {

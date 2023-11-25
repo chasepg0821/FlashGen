@@ -9,9 +9,11 @@ import style from "./paraphrase.module.css";
 import { Button, Card } from "antd";
 import { nextStep } from "../../features/steps/stepsSlice";
 import ReactCardFlip from "react-card-flip";
+import { getIPEvals, updateIP } from "../../features/stats/statsSlice";
 
-const IP = () => {
+const CP = () => {
     const cards = useSelector(selectCards);
+    const evals = useSelector(getIPEvals);
     const [cardsState, setCardsState] = useState(cards);
     const [errors, setErrors] = useState([]);
 
@@ -66,12 +68,43 @@ const IP = () => {
         return errors.length;
     };
 
+    const fetchResults = async () => {
+        const data = {
+            cards: cardsState
+        };
+        await fetch(
+            "https://flash-gen.azurewebsites.net/api/make-comparison?key=incorrectParaphrase",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
+        )
+            .then((resp) => {
+                if (!resp.ok) {
+                    throw Error(resp.status);
+                }
+                return resp.json();
+            })
+            .then((data) => {
+                dispatch(updateIP(data.evaluations));
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
     const submitCards = () => {
         const errorNo = checkForEmptyFields();
 
         if (errorNo === 0 && pageStep === "create") {
             changeStep("confirm");
         } else if (pageStep === "confirm") {
+            fetchResults();
+            changeStep("modelResults");
+        } else if (pageStep === "modelResults") {
             dispatch(nextStep());
         }
     };
@@ -96,9 +129,9 @@ const IP = () => {
                                     ? "1px solid red"
                                     : ""
                             }}>
-                            <p className={style.card_text}>
+                            <div className={style.card_text}>
                                 {cardsState[currentCard].prompt}
-                            </p>
+                            </div>
                         </Card>
                         <Card
                             title={`Card ${currentCard + 1} Answer`}
@@ -109,9 +142,9 @@ const IP = () => {
                                     ? "1px solid red"
                                     : ""
                             }}>
-                            <p className={style.card_text}>
+                            <div className={style.card_text}>
                                 {cardsState[currentCard].answer}
-                            </p>
+                            </div>
                         </Card>
                     </ReactCardFlip>
                     <Button onClick={nextCard}>
@@ -150,18 +183,14 @@ const IP = () => {
                     <div className={style.input_group + " " + style.info}>
                         <h2>Card {index + 1} Info</h2>
                         <h3>Prompt:</h3>
-                        <div className={style.display}>
-                            {cardsState[index].prompt}
-                        </div>
+                        <div className={style.display}>{card.prompt}</div>
                         <h3>Answer:</h3>
-                        <div className={style.display}>
-                            {cardsState[index].answer}
-                        </div>
+                        <div className={style.display}>{card.answer}</div>
                     </div>
                     <div className={style.input_group}>
                         <h3>Incorrect Paraphrase:</h3>
                         <div className={style.display}>
-                            {cardsState[index].incorrectParaphrase}
+                            {card.incorrectParaphrase}
                         </div>
                     </div>
                 </div>
@@ -169,21 +198,75 @@ const IP = () => {
         });
     };
 
+    const renderModelResults = () => {
+        return cardsState.map((card, index) => {
+            return (
+                <div className={style.result_card}>
+                    <h3>Prompt:</h3>
+                    <p>{card.prompt}</p>
+                    <h3>Answer:</h3>
+                    <p>{card.answer}</p>
+                    <h3>Paraphrase:</h3>
+                    <p>{card.incorrectParaphrase}</p>
+                    <div className={style.result_container}>
+                        <div className={style.result}>
+                            <h3>Expected</h3>
+                            True
+                        </div>
+                        <div className={style.result}>
+                            <h3>Result</h3>
+                            <div
+                                style={{
+                                    color: evals[index] ? "green" : "red"
+                                }}>
+                                {evals[index] ? "True" : "False"}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        });
+    };
+
+    const renderTitle = () => {
+        switch (pageStep) {
+            case "create":
+                return "Add Incorrect Paraphrases";
+            case "confirm":
+                return "Confirm Your Entries";
+            default:
+                return "See Our Model's Results";
+        }
+    };
+
+    const renderPageContent = () => {
+        switch (pageStep) {
+            case "create":
+                return renderCreateCard();
+            case "confirm":
+                return renderConfirm();
+            default:
+                return renderModelResults();
+        }
+    };
+
     return (
         <div className={style.page}>
-            <h1>
-                {pageStep === "create"
-                    ? "Add Incorrect Paraphrases"
-                    : "Confirm Your Entries"}
-            </h1>
-            {pageStep === "create" ? renderCreateCard() : renderConfirm()}
+            <h1>{renderTitle()}</h1>
+            {renderPageContent()}
             {errors.length > 0 && (
                 <p style={{ color: "red", textAlign: "center" }}>
                     All pairs must have an incorrect paraphrase added. Pairs
                     that are missing one are highlighted in red. <br /> Errors
                     on cards: [
-                    {errors.map((number) => {
-                        return <>{number + 1 + ","}</>;
+                    {errors.map((number, index) => {
+                        return (
+                            <>
+                                {index === errors.length - 1
+                                    ? number + 1
+                                    : number + 1 + ", "}
+                            </>
+                        );
                     })}
                     ]
                 </p>
@@ -200,11 +283,11 @@ const IP = () => {
                     className={style.control_button}
                     type="primary"
                     onClick={submitCards}>
-                    {pageStep === "create" ? "Continue" : "Confirm"}
+                    {pageStep === "confirm" ? "Confirm" : "Continue"}
                 </Button>
             </div>
         </div>
     );
 };
 
-export default IP;
+export default CP;
