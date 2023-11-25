@@ -200,11 +200,13 @@ const CP = () => {
             return (
                 <div className={style.result_card}>
                     <h3>Prompt:</h3>
-                    <p>{card.prompt}</p>
+                    <div className={style.display}>{card.prompt}</div>
                     <h3>Answer:</h3>
-                    <p>{card.answer}</p>
+                    <div className={style.display}>{card.answer}</div>
                     <h3>Paraphrase:</h3>
-                    <p>{card.correctParaphrase}</p>
+                    <div className={style.display}>
+                        {card.correctParaphrase}
+                    </div>
                     <div className={style.result_container}>
                         <div className={style.result}>
                             <h3>Expected</h3>
