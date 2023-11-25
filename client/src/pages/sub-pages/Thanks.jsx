@@ -80,10 +80,13 @@ const Thanks = () => {
                 </p>
                 <div
                     style={{
-                        fontSize: "2em",
                         color: "green"
                     }}>
-                    <CheckCircleOutlined />
+                    <CheckCircleOutlined
+                        style={{
+                            fontSize: "150%"
+                        }}
+                    />
                 </div>
             </>
         );
