@@ -78,11 +78,13 @@ const Thanks = () => {
                 <p className={style.welcome_message}>
                     Your responses have been recorded!
                 </p>
-                <CheckCircleOutlined
-                    width={250}
-                    height={250}
-                    style={{ color: "green" }}
-                />
+                <div
+                    style={{
+                        fontSize: "2em",
+                        color: "green"
+                    }}>
+                    <CheckCircleOutlined />
+                </div>
             </>
         );
     };
