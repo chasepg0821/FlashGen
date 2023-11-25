@@ -32,19 +32,20 @@ const Welcome = () => {
                 do the following:
             </p>
             <p className={style.welcome_message}>
-                <b>Step 1:</b> You will create 5 prompt-answer pairs on your
+                <b>Part 1:</b> You will create 5 prompt-answer pairs on your
                 prefered area of expertise. This should mimic the creatation of
-                a set of flashcards!
+                a set of flashcards! Feel free to use flashcrads you have
+                recently created for reference or create new ones about any
+                topic using your knowledge.
             </p>
             <p className={style.welcome_message}>
-                <b>Step 2:</b> Rewrite the answer for each prompt in an accurate
-                paraphrase. In other words, put the answer in other words. You
-                may also take the time to test out the interactive flashcards.
+                <b>Part 2:</b> Rewrite your answers in an accurate paraphrase.
+                In other words, put the answer in other words. You may also take
+                the time to test out the interactive flashcards.
             </p>
             <p className={style.welcome_message}>
-                <b>Step 3:</b> Rewrite the answer for each prompt in an
-                incorrect paraphrase. This simply means give us a wrong answer
-                to your prompt.
+                <b>Part 3:</b> Rewrite your answers in an incorrect paraphrase.
+                This simply means give us a wrong answer to your prompt.
             </p>
             <p className={style.welcome_message}>
                 Throughout the study you will get to see the results of our
