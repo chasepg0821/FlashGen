@@ -213,13 +213,13 @@ const CP = () => {
                     <div className={style.result_container}>
                         <div className={style.result}>
                             <h3>Expected</h3>
-                            True
+                            False
                         </div>
                         <div className={style.result}>
                             <h3>Result</h3>
                             <div
                                 style={{
-                                    color: evals[index] ? "green" : "red"
+                                    color: !evals[index] ? "green" : "red"
                                 }}>
                                 {evals[index] ? "True" : "False"}
                             </div>

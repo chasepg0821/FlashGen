@@ -34,7 +34,7 @@ const Welcome = () => {
             <p className={style.welcome_message}>
                 <b>Part 1:</b> You will create 5 prompt-answer pairs on your
                 prefered area of expertise. This should mimic the creatation of
-                a set of flashcards! Feel free to use flashcrads you have
+                a set of flashcards! Feel free to use flashcards you have
                 recently created for reference or create new ones about any
                 topic using your knowledge.
             </p>
