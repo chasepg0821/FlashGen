@@ -32,4 +32,5 @@ def handle_405(e):
     return e
 
 if __name__ == '__main__':
-    application.run(use_reloader=True, port=5000, threaded=True)
+    application.debug = True
+    application.run()

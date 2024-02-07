@@ -25,7 +25,7 @@ const Example = () => {
     const [resData, setResData] = useState("default");
 
     const fetchData = async () => {
-        const url = METHOD_MAP[reqType] === 'GET' ? 'http://127.0.0.1:5000/api/example?key=1234' : 'http://127.0.0.1:5000/api/example';
+        const url = METHOD_MAP[reqType] === 'GET' ? 'http://team00-flaskserve-env.eba-gfmvhdjj.us-east-1.elasticbeanstalk.com/api/example?key=1234' : 'http://team00-flaskserve-env.eba-gfmvhdjj.us-east-1.elasticbeanstalk.com/api/example';
 
         fetch(url, METHOD_MAP[reqType] === 'GET' ? GET_OPTIONS : POST_OPTIONS)
         .then((res) => {
