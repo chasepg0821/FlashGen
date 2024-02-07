@@ -23,5 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 __pycache__/
-flash_gen_env/
-bert_para_model/
+flaskex/
