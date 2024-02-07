@@ -24,9 +24,9 @@ api = Blueprint('api', __name__)
 # cnx.close()
 
 
-return {
-    "message" : f"Rows edited: {rows}"
-}, 200
+# return {
+#     "message" : f"Rows edited: {rows}"
+# }, 200
 @api.route('/example', methods=['POST', 'GET'])
 def example ():
     if request.method == 'GET':
