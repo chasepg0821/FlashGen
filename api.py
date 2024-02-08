@@ -1,8 +1,5 @@
 import os
 from flask import Blueprint, request, jsonify
-import requests
-import mysql.connector
-import uuid
 
 api = Blueprint('api', __name__)
 
@@ -27,6 +24,7 @@ api = Blueprint('api', __name__)
 # return {
 #     "message" : f"Rows edited: {rows}"
 # }, 200
+
 @api.route('/example', methods=['POST', 'GET'])
 def example ():
     if request.method == 'GET':

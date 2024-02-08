@@ -2,7 +2,7 @@ import os
 from flask import Flask, send_from_directory, request, jsonify
 from api import api
 
-application = Flask(__name__, static_folder='./client/build')
+application = Flask(__name__, static_folder='./build')
 application.register_blueprint(api, url_prefix="/api")
 
 # Serve React App
@@ -34,3 +34,4 @@ def handle_405(e):
 if __name__ == '__main__':
     application.debug=True
     application.run()
+    
